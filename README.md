@@ -8,7 +8,7 @@ mix ecto.create
 mix phoenix.gen.html Post posts title body:text
 ```
 
-* web/router.ex
+## web/router.ex
 ```elixir
 defmodule Nested.Router do
   use Nested.Web, :router
@@ -34,22 +34,22 @@ defmodule Nested.Router do
 end
 ```
 
-* migrar a tabela posts
+## migrar a tabela posts
 ```elixir
 mix ecto.migrate
 ```
 
-* testar o CRUD do posts
+## testar o CRUD do posts
 ```elixir
 mix phoenix.server
 ```
 
-* gerando o comment
+## gerando o comment
 ```elixir
 mix phoenix.gen.html Comment comments title body:text post_id:references:posts
 ```
 
-* associar os models, models/post.ex
+## associar os models, models/post.ex
 ```elixir
 defmodule Nested.Post do
   use Nested.Web, :model
@@ -73,14 +73,14 @@ defmodule Nested.Post do
 end
 ```
 
-* web/router.ex
+## web/router.ex
 ```elixir
 resources "/posts", PostController do
   resources "/comments", CommentController
 end
 ```
 
-* ajustar o controller/comment_controller.ex
+## ajustar o controller/comment_controller.ex
 ```elixir
 defmodule Nested.CommentController do
   use Nested.Web, :controller
@@ -150,8 +150,7 @@ defmodule Nested.CommentController do
 end
 ```
 
-* ajustar os paths
-** templates/commet/edit.html.eex
+## templates/commet/edit.html.eex
 ```elixir
 <h2>Edit comment</h2>
 
@@ -161,7 +160,7 @@ end
 <%= link "Back", to: post_comment_path(@conn, :index, @post_id) %>
 ```
 
-** templates/commet/index.html.eex
+## templates/commet/index.html.eex
 ```elixir
 <h2>Listing comments</h2>
 
@@ -195,7 +194,7 @@ end
 <%= link "New comment", to: post_comment_path(@conn, :new, @post_id) %>
 ```
 
-** templates/commet/new.html.eex
+## templates/commet/new.html.eex
 ```elixir
 <h2>New comment</h2>
 
@@ -205,7 +204,7 @@ end
 <%= link "Back", to: post_comment_path(@conn, :index, @post_id) %>
 ```
 
-** templates/commet/show.html.eex
+## templates/commet/show.html.eex
 ```elixir
 <h2>Show comment</h2>
 
@@ -232,12 +231,12 @@ end
 <%= link "Back", to: post_comment_path(@conn, :index, @post_id) %>
 ```
 
-* migrar a tabela comments
+## migrar a tabela comments
 ```elixir
 mix ecto.migrate
 ```
 
-* ajustar o templates/post/index.html.eex
+## ajustar o templates/post/index.html.eex
 ```elixir
 <h2>Listing posts</h2>
 
@@ -266,13 +265,4 @@ mix ecto.migrate
 </table>
 
 <%= link "New post", to: post_path(@conn, :new) %>
-```
-
-```elixir
-```
-
-```elixir
-```
-
-```elixir
 ```
