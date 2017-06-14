@@ -1,0 +1,30 @@
+<h2>Listing comments</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Post</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for comment <- @comments do %>
+    <tr>
+      <td><%= comment.title %></td>
+      <td><%= comment.body %></td>
+      <td><%= comment.post_id %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: post_comment_path(@conn, :show, @post_id, comment), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: post_comment_path(@conn, :edit, @post_id, comment), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: post_comment_path(@conn, :delete, @post_id, comment), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New comment", to: post_comment_path(@conn, :new, @post_id) %>
