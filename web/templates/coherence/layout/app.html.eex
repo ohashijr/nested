@@ -7,27 +7,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Nested!</title>
+    <title><%= Coherence.Config.title() %></title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
-
 
   <body>
     <div class="container">
       <header class="header">
-  <nav role="navigation">
-    <ul class="nav nav-pills pull-right">
-      <%= if Coherence.current_user(@conn) do %>
-        <%= if @conn.assigns[:remembered] do %>
-          <li style="color: red;">!!</li>
-        <% end %>
-      <% end %>
-      <%= Nested.Coherence.ViewHelpers.coherence_links(@conn, :layout) %>
-      <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-    </ul>
-  </nav>
-  <span class="logo"></span>
-  </header>
+        <nav role="navigation">
+        </nav>
+        <span class="logo"></span>
+      </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

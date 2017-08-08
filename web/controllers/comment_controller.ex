@@ -1,9 +1,18 @@
 defmodule Nested.CommentController do
   use Nested.Web, :controller
 
-  alias Nested.Comment
+  alias Nested.{User, Comment, Post}
+  plug PolicyWonk.LoadResource, [:post] when action in [:index, :show, :edit, :update, :delete]
+  plug PolicyWonk.Enforce, :post_owner when action in [:index, :show, :edit, :update, :delete]
 
   def index(conn, %{"post_id" => post_id}) do
+
+    #query = from c in Comment,
+    #        join: p in Post, where: c.post_id == p.id
+    #        and p.id == ^post_id and p.user_id == ^conn.assigns.current_user.id
+
+    #comments = Repo.all(query)
+    #render(conn, "index.html", post_id: post_id, comments: comments)
     query = from p in Comment, where: p.post_id == ^post_id
     comments = Repo.all(query)
     render(conn, "index.html", post_id: post_id, comments: comments)
@@ -62,5 +71,27 @@ defmodule Nested.CommentController do
     conn
     |> put_flash(:info, "Comment deleted successfully.")
     |> redirect(to: post_comment_path(conn, :index, post_id))
+  end
+
+  def policy(assigns, :post_owner) do
+    case {assigns[:current_user], assigns[:post]} do
+      {%User{id: user_id}, post=%Post{}} ->
+        case post.user_id do
+          ^user_id -> :ok
+          _ -> :not_found
+        end
+      _ -> :not_found
+    end
+  end
+
+  def load_resource(_conn, :post, %{"post_id" => id}) do
+    case Repo.get(Post, id) do
+      nil -> :not_found
+      post -> {:ok, :post, post}
+    end
+  end
+
+  def policy_error(conn, :not_found) do
+    Nested.ErrorHandlers.resource_not_found(conn, :not_found)
   end
 end

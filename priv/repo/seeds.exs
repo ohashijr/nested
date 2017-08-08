@@ -9,3 +9,8 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+Nested.Repo.delete_all Nested.User
+
+Nested.User.changeset(%Nested.User{}, %{name: "Orlando Ohashi", email: "ohashijr@gmail.com", password: "ohashi", password_confirmation: "ohashi"})
+|> Nested.Repo.insert!

@@ -5,6 +5,7 @@ defmodule Nested.Post do
     field :title, :string
     field :body, :string
     has_many :comments, Nested.Comment
+    belongs_to :user, Nested.User
 
     timestamps()
   end
@@ -14,7 +15,7 @@ defmodule Nested.Post do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :body])
+    |> cast(params, [:title, :body, :user_id])
     |> validate_required([:title, :body])
   end
 end
